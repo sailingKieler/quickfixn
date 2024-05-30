@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "C#: Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Examples/Executor/Examples.Executor.csproj"
+        }, {
+            "name": "Launch Executor",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildExecutor",
+            "program": "${workspaceFolder}/Examples/Executor/bin/Debug/net8.0/Executor.dll",
+            "args": [
+                "${workspaceFolder}/Examples/Executor/executor.cfg"
+            ],
+            "cwd": "${workspaceFolder}/Examples/Executor",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }, {
+            "name": "Launch client CLI",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildTradeClient",
+            "program": "${workspaceFolder}/Examples/TradeClient/bin/Debug/net8.0/TradeClient.dll",
+            "args": [
+                "${workspaceFolder}/Examples/TradeClient/tradeclient.cfg"
+            ],
+            "cwd": "${workspaceFolder}/Examples/TradeClient",
+            "stopAtEntry": false,
+            "console": "externalTerminal",
+        }
+    ]
+}

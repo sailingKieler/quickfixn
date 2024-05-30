@@ -1,0 +1,9 @@
+image: gitpod/workspace-dotnet
+
+tasks:
+  - init:
+      ([ -f powershell-lts_7.4.2-1.deb_amd64.deb ] || wget https://github.com/PowerShell/PowerShell/releases/download/v7.4.2/powershell-lts_7.4.2-1.deb_amd64.deb)
+        && sudo add-apt-repository -y universe
+        && sudo dpkg --force-all -i powershell-lts_7.4.2-1.deb_amd64.deb
+        && pwsh scripts/Generate-Message-Sources.ps1
+        && dotnet build
