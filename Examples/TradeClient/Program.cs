@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using QuickFix.Fields;
 using QuickFix.Logger;
 using QuickFix.Store;
 
@@ -32,15 +34,36 @@ namespace TradeClient
             try
             {
                 QuickFix.SessionSettings settings = new QuickFix.SessionSettings(file);
-                TradeClientApp application = new TradeClientApp();
                 IMessageStoreFactory storeFactory = new FileStoreFactory(settings);
                 ILogFactory logFactory = new ScreenLogFactory(settings);
+                TradeClientApp application = new TradeClientApp();
                 QuickFix.Transport.SocketInitiator initiator = new QuickFix.Transport.SocketInitiator(application, storeFactory, settings, logFactory);
 
                 // this is a developer-test kludge.  do not emulate.
                 application.MyInitiator = initiator;
 
                 initiator.Start();
+
+                // new Thread(() => {
+                //     Thread.Sleep(5000);
+                //     QuickFix.FIX44.NewOrderSingle newOrderSingle = new QuickFix.FIX44.NewOrderSingle(
+                //         new ClOrdID("Foo"),
+                //         new Symbol("Bar"),
+                //         new Side(Side.BUY),
+                //         new TransactTime(DateTime.Now),
+                //         new OrdType(OrdType.MARKET)
+                //     );
+
+                //     newOrderSingle.SetFields([
+                //         new OrderQty(1),
+                //         new HandlInst(HandlInst.AUTOMATED_EXECUTION_ORDER_PRIVATE),
+                //         new TimeInForce(TimeInForce.DAY)
+                //     ]);
+
+                //     application.SendMessage(newOrderSingle);
+
+                // }).Start();
+                
                 application.Run();
                 initiator.Stop();
             }

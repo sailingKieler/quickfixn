@@ -27,7 +27,7 @@ namespace TradeClient
 
         public void FromApp(Message message, SessionID sessionID)
         {
-            Console.WriteLine("IN:  " + message.ToString());
+            Console.WriteLine("IN:  " + message.ToString().Replace(Message.SOH, '|'));
             try
             {
                 Crack(message, sessionID);
@@ -57,7 +57,7 @@ namespace TradeClient
             { }
 
             Console.WriteLine();
-            Console.WriteLine("OUT: " + message.ToString());
+            Console.WriteLine("OUT: " + message.ToString().Replace(Message.SOH, '|'));
         }
         #endregion
 
@@ -74,6 +74,10 @@ namespace TradeClient
         }
         #endregion
 
+        public void OnMessage(QuickFix.FIX44.BusinessMessageReject m, SessionID s)
+        {
+            Console.WriteLine("Received business message reject: " + m.ToString());
+        }
 
         public void Run()
         {
@@ -122,7 +126,7 @@ namespace TradeClient
             Console.WriteLine("Program shutdown.");
         }
 
-        private void SendMessage(Message m)
+        public void SendMessage(Message m)
         {
             if (_session != null)
                 _session.Send(m);
